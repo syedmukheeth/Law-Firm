@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import { LiveChatWidget } from "@/components/shared/LiveChatWidget";
+import { IntroSplash } from "@/components/shared/IntroSplash";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { organizationJsonLd } from "@/lib/seo/jsonld";
 import { SITE_NAME } from "@/lib/constants";
@@ -38,6 +39,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
+        <IntroSplash />
         <LenisProvider>
           <GsapProvider>
             <Header />

@@ -7,16 +7,32 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MagneticLink } from "@/components/animation/MagneticButton";
 import { SplitTextReveal } from "@/components/animation/SplitTextReveal";
+import { Counter } from "@/components/animation/Counter";
+import { ScalesScene } from "./ScalesScene";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+
+const STATS = [
+  { value: 22, suffix: "+", label: "Years in practice" },
+  { value: 480, suffix: "+", label: "Cases resolved" },
+  { value: 97, suffix: "%", label: "Client retention" },
+] as const;
+
+const SCALES_PARTS = ["base", "post", "beam", "pan-left", "pan-right", "finial"] as const;
 
 export function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const parts = SCALES_PARTS.map((name) =>
+        sceneRef.current?.querySelector<SVGGElement>(`[data-part='${name}']`)
+      );
+
       if (reducedMotion) {
         gsap.set(["[data-hero-layer='1']", "[data-hero-layer='2']"], { yPercent: 0 });
+        parts.forEach((el) => el && gsap.set(el, { autoAlpha: 1, y: 0, scaleX: 1, scaleY: 1 }));
         return;
       }
 
@@ -39,6 +55,37 @@ export function Hero() {
           end: "bottom top",
           scrub: true,
         },
+      });
+
+      parts.forEach((el, i) => {
+        if (!el) return;
+        const isBeam = SCALES_PARTS[i] === "beam";
+        const isPost = SCALES_PARTS[i] === "post";
+        gsap.set(el, {
+          autoAlpha: 0,
+          transformOrigin: "center",
+          ...(isBeam ? { scaleX: 0 } : isPost ? { scaleY: 0 } : { y: -16 }),
+        });
+      });
+
+      const scaleTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: rootRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      });
+      parts.forEach((el, i) => {
+        if (!el) return;
+        const isBeam = SCALES_PARTS[i] === "beam";
+        const isPost = SCALES_PARTS[i] === "post";
+        scaleTl.to(el, {
+          autoAlpha: 1,
+          ...(isBeam ? { scaleX: 1 } : isPost ? { scaleY: 1 } : { y: 0 }),
+          duration: 1,
+          ease: "power2.out",
+        });
       });
     }, rootRef);
 
@@ -81,6 +128,13 @@ export function Hero() {
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" className="text-foreground" />
       </svg>
+
+      <div
+        ref={sceneRef}
+        className="pointer-events-none absolute right-[4%] top-1/2 z-5 hidden w-75 -translate-y-1/2 opacity-90 lg:block xl:right-[8%] xl:w-85"
+      >
+        <ScalesScene className="w-full" />
+      </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16">
         <motion.span
@@ -131,7 +185,39 @@ export function Hero() {
             Practice Areas
           </Link>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 flex max-w-2xl flex-wrap gap-x-10 gap-y-6 border-t border-foreground/10 pt-8"
+        >
+          {STATS.map((stat) => (
+            <div key={stat.label}>
+              <div className="font-display text-3xl font-bold text-gold-500 md:text-4xl">
+                <Counter value={stat.value} suffix={stat.suffix} />
+              </div>
+              <div className="mt-1 text-xs uppercase tracking-[0.2em] text-foreground-muted">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.1 }}
+        className="pointer-events-none absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-foreground-muted md:flex"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+        <motion.span
+          animate={reducedMotion ? undefined : { y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="h-8 w-px bg-linear-to-b from-gold-500 to-transparent"
+        />
+      </motion.div>
     </div>
   );
 }

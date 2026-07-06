@@ -23,9 +23,11 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     ).matches;
 
     const instance = new Lenis({
-      duration: 1.2,
+      duration: 1.35,
+      easing: (t: number) => 1 - Math.pow(1 - t, 4),
       smoothWheel: !prefersReducedMotion,
       touchMultiplier: 1.5,
+      wheelMultiplier: 1,
     });
 
     setLenis(instance);

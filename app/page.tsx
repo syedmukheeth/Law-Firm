@@ -1,7 +1,6 @@
 import { StoryLayout } from "@/components/shared/StoryLayout";
 import { chapters, totalActs } from "@/lib/data/chapters";
 import { Hero } from "@/components/sections/home/Hero";
-import { CaseJourney } from "@/components/sections/home/CaseJourney";
 import { TrustMetrics } from "@/components/sections/home/TrustMetrics";
 import { WhoWeAre } from "@/components/sections/home/WhoWeAre";
 import { PracticeAreasGrid } from "@/components/sections/home/PracticeAreasGrid";
@@ -26,7 +25,6 @@ export default function Home() {
       chapters={chapters}
     >
       <Hero />
-      <CaseJourney />
       <TrustMetrics />
       <WhoWeAre />
       <PracticeAreasGrid />

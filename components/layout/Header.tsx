@@ -24,15 +24,27 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300",
-        scrolled
-          ? "border-foreground/10 bg-background/90 shadow-[0_1px_0_0_rgba(0,0,0,0.02),0_8px_30px_-12px_rgba(28,25,23,0.15)] backdrop-blur-xl"
-          : "border-foreground/5 bg-background/75 backdrop-blur-md"
+        "fixed inset-x-0 top-0 z-50 flex justify-center transition-all duration-500",
+        scrolled ? "px-3 pt-3 md:px-6 md:pt-4" : "px-0 pt-0"
       )}
     >
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6 md:px-10 lg:px-16">
+      <div
+        className={cn(
+          "relative flex w-full items-center justify-between border transition-all duration-500",
+          scrolled
+            ? "max-w-6xl rounded-2xl border-white/15 bg-background/55 px-5 py-3 shadow-[0_8px_40px_-12px_rgba(28,25,23,0.25)] backdrop-blur-2xl backdrop-saturate-150 md:px-8"
+            : "max-w-7xl rounded-none border-transparent border-b-foreground/5 bg-background/40 px-6 py-5 backdrop-blur-md md:px-10 lg:px-16"
+        )}
+      >
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent transition-opacity duration-500",
+            scrolled ? "opacity-100" : "opacity-0"
+          )}
+        />
         <Logo />
-        <nav className="hidden items-center gap-9 md:flex">
+        <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => {
             const active =
               pathname === link.href ||
@@ -42,19 +54,13 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "group relative py-2 text-sm font-medium transition-colors",
+                  "relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200",
                   active
-                    ? "text-foreground"
-                    : "text-foreground-muted hover:text-foreground"
+                    ? "bg-foreground/6 text-foreground"
+                    : "text-foreground-muted hover:bg-foreground/4 hover:text-foreground"
                 )}
               >
                 {link.label}
-                <span
-                  className={cn(
-                    "absolute inset-x-0 -bottom-0.5 h-px scale-x-0 bg-gold-400 transition-transform duration-300 group-hover:scale-x-100",
-                    active && "scale-x-100"
-                  )}
-                />
               </Link>
             );
           })}

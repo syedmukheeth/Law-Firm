@@ -34,7 +34,7 @@ export function CaseJourney() {
 
     const layer = (name: string) =>
       root.querySelector<SVGGElement>(`[data-layer='${name}']`);
-    const built = ["block", "handle", "collar", "head", "rings", "seal"];
+    const built = ["block", "head", "collar", "handle", "rings", "seal"];
     const blueprintStrokes =
       layer("blueprint")?.querySelectorAll<SVGGeometryElement>("[data-draw]");
 
@@ -56,10 +56,11 @@ export function CaseJourney() {
         const el = layer(b);
         if (!el) return;
         const isHead = b === "head";
+        const isGavelJoint = b === "collar" || b === "handle";
         gsap.set(el, {
           autoAlpha: 0,
           willChange: "transform, opacity",
-          transformOrigin: "center",
+          transformOrigin: isGavelJoint ? "300px 190px" : "center",
           ...(isHead ? { y: -34 } : { scaleY: 0 }),
         });
       });

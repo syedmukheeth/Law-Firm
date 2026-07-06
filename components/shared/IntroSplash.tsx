@@ -102,7 +102,7 @@ export function IntroSplash() {
       setPhase("leaving");
       gsap.to(overlayRef.current, {
         autoAlpha: 0,
-        duration: 0.7,
+        duration: 0.5,
         ease: "power2.inOut",
         onComplete: () => {
           document.body.style.overflow = "";
@@ -119,7 +119,7 @@ export function IntroSplash() {
     document.body.style.overflow = "hidden";
 
     if (reduced) {
-      const t = setTimeout(finish, 1600);
+      const t = setTimeout(finish, 700);
       return () => clearTimeout(t);
     }
 
@@ -140,7 +140,7 @@ export function IntroSplash() {
     });
     gsap.set(captionRef.current, { autoAlpha: 0, y: 16 });
 
-    const tl = gsap.timeline({ delay: 0.3, onComplete: finish });
+    const tl = gsap.timeline({ delay: 0.1, onComplete: finish });
     PARTS.forEach((p) => {
       const el = layer(p);
       if (!el) return;
@@ -152,14 +152,14 @@ export function IntroSplash() {
           autoAlpha: 1,
           y: 0,
           ...(isPedestal ? { scaleX: 1 } : isRobe ? { scaleY: 1 } : {}),
-          duration: 0.85,
+          duration: 0.35,
           ease: "power2.out",
         },
-        "<0.35"
+        "<0.1"
       );
     });
-    tl.to(captionRef.current, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power2.out" }, "+=0.1");
-    tl.to({}, { duration: 1.4 });
+    tl.to(captionRef.current, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out" }, "+=0.05");
+    tl.to({}, { duration: 0.3 });
 
     return () => {
       tl.kill();
@@ -183,8 +183,8 @@ export function IntroSplash() {
         <span className="text-xs font-medium uppercase tracking-[0.3em] text-gold-400/80">
           Vantara &amp; Rao
         </span>
-        <h2 className="mt-3 max-w-md font-display text-xl font-bold text-gold-50 md:text-2xl">
-          Justice, Represented.
+        <h2 className="mt-3 max-w-md font-display text-xl italic text-gradient-gold md:text-2xl">
+          We Don&apos;t Just Advise. We Prevail.
         </h2>
       </div>
     </div>

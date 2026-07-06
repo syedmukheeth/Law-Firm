@@ -1,26 +1,192 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf7f1;
+  --background-charcoal: #f2ede2;
+  --background-slate: #e9e2d3;
+  --foreground: #1c1917;
+  --foreground-muted: #6b6255;
+
+  --gold-50: #f7f0df;
+  --gold-100: #ecdcb3;
+  --gold-200: #dec488;
+  --gold-300: #cca964;
+  --gold-400: #b6904c;
+  --gold-500: #a9822f;
+  --gold-600: #8f6d24;
+  --gold-700: #7d6329;
+  --gold-800: #5f4c1f;
+  --gold-900: #473a19;
+
+  --bronze-400: #96793a;
+  --bronze-500: #856b32;
+  --bronze-600: #7d6329;
+
+  --emerald-400: #2f7a5a;
+  --emerald-500: #1f5f45;
+  --emerald-600: #164a35;
+  --emerald-700: #0f3627;
+  --emerald-800: #0a2a1e;
+  --emerald-900: #071f16;
+
+  --glass-bg: rgba(28, 25, 23, 0.03);
+  --glass-border: rgba(28, 25, 23, 0.08);
+
+  --shadow-luxury: 0 20px 60px -15px rgba(31, 95, 69, 0.12), 0 8px 24px -8px rgba(28, 25, 23, 0.08);
+  --shadow-accent-glow: 0 0 0 1px rgba(31, 95, 69, 0.25), 0 8px 32px -8px rgba(31, 95, 69, 0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-charcoal: var(--background-charcoal);
+  --color-background-slate: var(--background-slate);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-muted: var(--foreground-muted);
+
+  --color-gold-50: var(--gold-50);
+  --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-gold-800: var(--gold-800);
+  --color-gold-900: var(--gold-900);
+
+  --color-bronze-400: var(--bronze-400);
+  --color-bronze-500: var(--bronze-500);
+  --color-bronze-600: var(--bronze-600);
+
+  --color-emerald-400: var(--emerald-400);
+  --color-emerald-500: var(--emerald-500);
+  --color-emerald-600: var(--emerald-600);
+  --color-emerald-700: var(--emerald-700);
+  --color-emerald-800: var(--emerald-800);
+  --color-emerald-900: var(--emerald-900);
+
+  --font-display: var(--font-playfair);
+  --font-sans: var(--font-worksans);
+
+  --shadow-luxury: var(--shadow-luxury);
+  --shadow-accent-glow: var(--shadow-accent-glow);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--glass-border);
+}
+
+html {
+  scroll-behavior: auto;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--emerald-600);
+  color: var(--gold-50);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--background-slate);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-600);
+}
+
+:focus-visible {
+  outline: 2px solid var(--emerald-500);
+  outline-offset: 3px;
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(120deg, var(--gold-300), var(--gold-500) 55%, var(--bronze-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(120deg, var(--emerald-400), var(--emerald-600) 60%, var(--emerald-800));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes dust {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-14px);
+    opacity: 0.8;
+  }
+}
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(182, 144, 76, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(182, 144, 76, 0.12) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
